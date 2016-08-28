@@ -1,0 +1,36 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{5D1C5348-4A42-4E2B-AD6C-B7BFEB03F9BA}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="ExcelDemo.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="ExcelDemo">
+        <MSBuild Projects="ExcelDemo.dproj"/>
+    </Target>
+    <Target Name="ExcelDemo:Clean">
+        <MSBuild Projects="ExcelDemo.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="ExcelDemo:Make">
+        <MSBuild Projects="ExcelDemo.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="ExcelDemo"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="ExcelDemo:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="ExcelDemo:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
