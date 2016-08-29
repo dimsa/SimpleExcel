@@ -68,9 +68,9 @@ object MainForm: TMainForm
   end
   object ExcelPanel: TPanel
     Left = 8
-    Top = 464
+    Top = 434
     Width = 185
-    Height = 105
+    Height = 135
     Anchors = [akLeft, akBottom]
     TabOrder = 5
     object AddSheetBtn: TButton
@@ -84,7 +84,7 @@ object MainForm: TMainForm
     end
     object AddRowBtn: TButton
       Left = 8
-      Top = 39
+      Top = 70
       Width = 169
       Height = 25
       Caption = 'AddRowBtn'
@@ -93,12 +93,21 @@ object MainForm: TMainForm
     end
     object AddColBtn: TButton
       Left = 8
-      Top = 70
+      Top = 101
       Width = 169
       Height = 25
       Caption = 'AddColBtn'
       TabOrder = 2
       OnClick = AddColBtnClick
+    end
+    object RemSheetBtn: TButton
+      Left = 8
+      Top = 39
+      Width = 169
+      Height = 25
+      Caption = 'RemSheetBtn'
+      TabOrder = 3
+      OnClick = RemSheetBtnClick
     end
   end
   object Button2: TButton

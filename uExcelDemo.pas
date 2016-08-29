@@ -21,6 +21,7 @@ type
     AddColBtn: TButton;
     OpenDlg: TOpenDialog;
     Button2: TButton;
+    RemSheetBtn: TButton;
     procedure OpenFileBtnClick(Sender: TObject);
     procedure SaveFileBtnClick(Sender: TObject);
     procedure AddSheetBtnClick(Sender: TObject);
@@ -29,10 +30,12 @@ type
     procedure FormDestroy(Sender: TObject);
     procedure Button2Click(Sender: TObject);
     procedure CreateNewBtnClick(Sender: TObject);
+    procedure RemSheetBtnClick(Sender: TObject);
   private
     FExcelDocument: TExcelDocument;
     procedure OnEnterGrid(Sender: TObject; ACol, ARow: Integer; const Value: string);
     procedure AddSheet(const ASheet: TExcelSheet);
+    procedure RemSheet(const AIndex: Integer);
   public
 
   end;
@@ -46,6 +49,12 @@ implementation
 
 procedure TMainForm.AddColBtnClick(Sender: TObject);
 begin
+  if not Assigned(FExcelDocument) then
+  begin
+    ShowMessage('You didn''t create document.');
+    Exit
+  end;
+
   FExcelDocument.Pages[PageControl.ActivePageIndex].ColCount :=
     FExcelDocument.Pages[PageControl.ActivePageIndex].ColCount + 1;
 
@@ -55,6 +64,12 @@ end;
 
 procedure TMainForm.AddRowBtnClick(Sender: TObject);
 begin
+  if not Assigned(FExcelDocument) then
+  begin
+    ShowMessage('You didn''t create document.');
+    Exit
+  end;
+
   FExcelDocument.Pages[PageControl.ActivePageIndex].RowCount :=
     FExcelDocument.Pages[PageControl.ActivePageIndex].RowCount + 1;
 
@@ -90,6 +105,12 @@ end;
 
 procedure TMainForm.AddSheetBtnClick(Sender: TObject);
 begin
+  if not Assigned(FExcelDocument) then
+  begin
+    ShowMessage('You didn''t create document.');
+    Exit
+  end;
+
   AddSheet(FExcelDocument.AddPage);
 end;
 
@@ -140,12 +161,40 @@ begin
   end;
 end;
 
+procedure TMainForm.RemSheet(const AIndex: Integer);
+var
+  vGrid: TStringGrid;
+  vTabSheet: TTabSheet;
+begin
+  vTabSheet := PageControl.ActivePage;
+  vGrid := TStringGrid(PageControl.ActivePage.Controls[0]);
+  vGrid.Free;
+  PageControl.RemoveControl(PageControl.ActivePage);
+  vTabSheet.Free;
+end;
+
+procedure TMainForm.RemSheetBtnClick(Sender: TObject);
+begin
+  if not Assigned(FExcelDocument) then
+  begin
+    ShowMessage('You didn''t create document.');
+    Exit
+  end;
+
+  FExcelDocument.RemPage(PageControl.ActivePageIndex);
+  RemSheet(PageControl.ActivePageIndex);
+end;
+
 procedure TMainForm.SaveFileBtnClick(Sender: TObject);
 begin
-  if SaveDlg.Execute then
+  if not Assigned(FExcelDocument) then
   begin
-    FExcelDocument.Save(SaveDlg.FileName);
+    ShowMessage('You didn''t create document.');
+    Exit
   end;
+
+  if SaveDlg.Execute then
+    FExcelDocument.Save(SaveDlg.FileName);
 end;
 
 

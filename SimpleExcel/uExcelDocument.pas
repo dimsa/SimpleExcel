@@ -50,6 +50,7 @@ type
     procedure Open(const AFileName: string);
     property PageCount: Integer read GetPageCount;
     function AddPage: TExcelSheet;
+    procedure RemPage(const AIndex: Integer);
     property Pages[Index: Integer]: TExcelSheet read GetPage write SetPage;
   end;
 
@@ -118,6 +119,8 @@ end;
 
 destructor TExcelSheet.Destroy;
 begin
+  FSheet.Activate;
+  FSheet.Delete;
   inherited;
 end;
 
@@ -239,6 +242,7 @@ end;
 constructor TExcelDocument.CreateFromFile(const AFileName: string);
 begin
   FExcel := CreateOleObject('excel.application');
+  FExcel.DisplayAlerts := False;
   FPages := TList<TExcelSheet>.Create;
   Open(AFileName);
 end;
@@ -246,6 +250,7 @@ end;
 constructor TExcelDocument.CreateNew;
 begin
   FExcel := CreateOleObject('excel.application');
+  FExcel.DisplayAlerts := False;
   FExcel.WorkBooks.Add;
   FWorkbook := FExcel.WorkBooks.Item[1];
   FPages := TList<TExcelSheet>.Create;
@@ -286,6 +291,15 @@ begin
 
   for i := 1 to FExcel.WorkSheets.Count do
     FPages.Add(TExcelSheet.Create(FWorkbook.Sheets.Item[i]))
+end;
+
+procedure TExcelDocument.RemPage(const AIndex: Integer);
+var
+  vPage: TExcelSheet;
+begin
+  vPage := FPages[AIndex];
+  FPages.Remove(vPage);
+  vPage.Free;
 end;
 
 procedure TExcelDocument.Save(const AFileName: string);
