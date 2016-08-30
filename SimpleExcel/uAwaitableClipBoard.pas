@@ -38,6 +38,7 @@ begin
   begin
     try
       vText := Clipboard.AsText;
+      Break;
     except
       Sleep(100);
     end;
@@ -55,6 +56,7 @@ begin
   begin
     try
       Clipboard.AsText := Value;
+      Break;
     except
       Sleep(100);
     end;

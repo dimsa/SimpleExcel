@@ -44,7 +44,7 @@ type
     function GetPageCount: Integer;
   public
     constructor CreateFromFile(const AFileName: string);
-    constructor CreateNew;
+    constructor CreateNew; // Create new Document with one sheet
     destructor Destroy; override;
     procedure Save(const AFileName: string);
     procedure Open(const AFileName: string);
@@ -232,7 +232,7 @@ var
 begin
   vN := FWorkBook.Sheets.Count; 
   FExcel.Sheets.Add(After := FWorkBook.Worksheets[vN]);
-  vN := FWorkBook.Sheets.Count; 
+  vN := FWorkBook.Sheets.Count;
   vSheet := FExcel.Sheets[vN];
 
   Result := TExcelSheet.Create(vSheet);
@@ -248,12 +248,16 @@ begin
 end;
 
 constructor TExcelDocument.CreateNew;
+var
+  vN: Integer;
 begin
   FExcel := CreateOleObject('excel.application');
   FExcel.DisplayAlerts := False;
   FExcel.WorkBooks.Add;
   FWorkbook := FExcel.WorkBooks.Item[1];
+  vN := FWorkBook.Sheets.Count;
   FPages := TList<TExcelSheet>.Create;
+  FPages.Add(TExcelSheet.Create(FWorkBook.Sheets[1]));
 end;
 
 destructor TExcelDocument.Destroy;

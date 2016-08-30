@@ -20,7 +20,7 @@ type
     AddRowBtn: TButton;
     AddColBtn: TButton;
     OpenDlg: TOpenDialog;
-    Button2: TButton;
+    OpenDefaultFileBtn: TButton;
     RemSheetBtn: TButton;
     procedure OpenFileBtnClick(Sender: TObject);
     procedure SaveFileBtnClick(Sender: TObject);
@@ -28,7 +28,7 @@ type
     procedure AddRowBtnClick(Sender: TObject);
     procedure AddColBtnClick(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    procedure OpenDefaultFileBtnClick(Sender: TObject);
     procedure CreateNewBtnClick(Sender: TObject);
     procedure RemSheetBtnClick(Sender: TObject);
   private
@@ -119,7 +119,7 @@ var
   vPage: TExcelSheet;
 begin
   FExcelDocument := TExcelDocument.CreateNew;
-  vPage := FExcelDocument.AddPage;
+  vPage := FExcelDocument.Pages[0];
   vPage.ColCount := 3;
   vPage.RowCount := 3;
   vPage[1, 1] := 'Hello World!';
@@ -127,7 +127,7 @@ begin
   AddSheet(vPage);
 end;
 
-procedure TMainForm.Button2Click(Sender: TObject);
+procedure TMainForm.OpenDefaultFileBtnClick(Sender: TObject);
 var
   i: Integer;
 begin

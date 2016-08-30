@@ -110,14 +110,14 @@ object MainForm: TMainForm
       OnClick = RemSheetBtnClick
     end
   end
-  object Button2: TButton
+  object OpenDefaultFileBtn: TButton
     Left = 8
     Top = 73
     Width = 194
     Height = 25
     Caption = 'OpenDefaultFileBtn'
     TabOrder = 1
-    OnClick = Button2Click
+    OnClick = OpenDefaultFileBtnClick
   end
   object SaveDlg: TSaveDialog
     Left = 56
