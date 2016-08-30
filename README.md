@@ -18,3 +18,14 @@ begin
   vPage[1, 1] := 'Hello World!';
 end;
 ```
+
+**Example of Opening:**
+```
+procedure TMainForm.OpenFileBtnClick(Sender: TObject);
+begin
+  if OpenDlg.Execute then
+  begin
+    FExcelDocument := TExcelDocument.CreateFromFile(OpenDlg.FileName);
+	ShowMessage(FExcelDocument.Pages[1].Cells[1,1]);
+  end;
+```
